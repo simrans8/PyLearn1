@@ -1,5 +1,5 @@
 # PyLearn1
-Simran Making notes
+
 
 # Libraries
 import numpy as np
