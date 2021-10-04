@@ -1,6 +1,6 @@
 # PyLearn1
 
-Siqi making notes here
+
 # Libraries
 import numpy as np
 import pandas as pd
