@@ -3,13 +3,24 @@
 
 Simran's edits
 
+
+
+
 hi
+
 
 #21/10/06 notes merging test
 
 Some other changes
 
 making changes second time
+
+
+third time changes
+NEW LINE NEW NOTES
+
+
+
 
 
 # Libraries
@@ -91,24 +102,41 @@ import re, csv
 
 def make_mosaic_inventory(): #creating a picture from smaller pictures
     # Set up output filename
+
+    top_dir = os.getcwd()
+    run_location = top_dir.split('/')[-1:][0]
+
     top_dir = os.getcwd() #This method returns current working directory of a process
     run_location = top_dir.split('/')[-1:][0] #spliting the folder??
+
     # The extension to search for
     extensions = ['.jpx', '.txt']
     # First, cataloge the directory of images and their 
     # paths (i.e. the file, and each one's location for retrieval)
+
+    for dirpath, dirnames, files in os.walk(top_dir):
+        ln = len(files)
+        bar = IncrementalBar('Processing:', max=ln)
+        for name in files:
+            if name.lower().endswith(tuple(extensions)):
+
     for dirpath, dirnames, files in os.walk(top_dir): #creating file name
         ln = len(files) #length of file
         bar = IncrementalBar('Processing:', max=ln) #processing vs progress to see process instead visual progress
         for name in files:
             if name.lower().endswith(tuple(extensions)): #extensions are jpx and txt
+
                 if '._' in name:
                     continue
                 if '_CompilerResults' in name:
                     continue
                 if '_AssemblyComplete' in name:
                     continue
+
+                item_path = os.path.join(dirpath, name)
+
                 item_path = os.path.join(dirpath, name) #creating file names
+
                 mdata = Path(name).stem
                 container = '_'.join(mdata.split('_')[:-1])
                 # Nomenclature for output
@@ -120,11 +148,19 @@ def make_mosaic_inventory(): #creating a picture from smaller pictures
                 df1 = pd.DataFrame().append(nd, ignore_index=True)
                 out_fname = run_location + '_InventoryMosaic.csv'
                 if os.path.exists(out_fname):
+
+                    df1.to_csv(out_fname, mode='a', header=False, index=False)
+                else:
+                    df1.to_csv(out_fname, header=True, index=False)
+            bar.next()
+        bar.finish()
+
                     df1.to_csv(out_fname, mode='a', header=False, index=False) #creating a csv file
                 else:
                     df1.to_csv(out_fname, header=True, index=False)
             bar.next() #moving on to create next name to lopp through the next and ipdate the progress bar
         bar.finish() #once looped through everything
+
 
 
 ##############################################
@@ -136,6 +172,23 @@ def assembly_txt_conversion(input_file):
     # Convert assembly.txt to assembly.csv 
     # The goal here is to make accessible all the data from the Assembly file
     core_id = Path(input_file).stem
+
+    #2021/10/06 returns the basename of input_file
+    core_id = '_'.join(core_id.split('_')[:-1])
+    #2021/10/06 joining core_id.split, seperated by '_' - I don't understand why split it first when joining them back in the end?
+    txt_file = input_file
+    csv_file = core_id + '_AssemblyConverted.csv'
+    #2021/10/06 create a new variable that stores the path+csv suffix
+    with open(txt_file, 'rt') as infile, open(csv_file, 'w+') as outfile:
+    #2021/10/06 create output csv files
+        stripped = (line.strip() for line in infile)
+        #2021/10/06  strip spaces in line from the .txt infile
+        lines = (line.split(",") for line in stripped if line)
+        #2021/10/06 replace the between strings space with ',' and store the new string as lines
+        writer = csv.writer(outfile)
+        writer.writerows(lines)
+#2021/10/06 write lines into output csv files
+
     core_id = '_'.join(core_id.split('_')[:-1])
     txt_file = input_file
     csv_file = core_id + '_AssemblyConverted.csv'
@@ -144,6 +197,7 @@ def assembly_txt_conversion(input_file):
         lines = (line.split(",") for line in stripped if line)
         writer = csv.writer(outfile)
         writer.writerows(lines)
+
 
 
 ##############################################
