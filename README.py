@@ -172,10 +172,9 @@ def assembly_txt_conversion(input_file):
     # Convert assembly.txt to assembly.csv 
     # The goal here is to make accessible all the data from the Assembly file
     core_id = Path(input_file).stem
-
-    #2021/10/06 returns the basename of input_file
+    #2021/10/06 returns the basename of input_file without extension
     core_id = '_'.join(core_id.split('_')[:-1])
-    #2021/10/06 joining core_id.split, seperated by '_' - I don't understand why split it first when joining them back in the end?
+    #2021/10/06 joining core_id.split, seperated by '_' - getting rid of the image # (which will eventually be replaced by new id)
     txt_file = input_file
     csv_file = core_id + '_AssemblyConverted.csv'
     #2021/10/06 create a new variable that stores the path+csv suffix
