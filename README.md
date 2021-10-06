@@ -141,15 +141,21 @@ def assembly_txt_conversion(input_file):
     # Convert assembly.txt to assembly.csv 
     # The goal here is to make accessible all the data from the Assembly file
     core_id = Path(input_file).stem
+    #2021/10/06 returns the basename of input_file
     core_id = '_'.join(core_id.split('_')[:-1])
+    #2021/10/06 joining core_id.split, seperated by '_' - I don't understand why split it first when joining them back in the end?
     txt_file = input_file
     csv_file = core_id + '_AssemblyConverted.csv'
+    #2021/10/06 create a new variable that stores the path+csv suffix
     with open(txt_file, 'rt') as infile, open(csv_file, 'w+') as outfile:
+    #2021/10/06 create output csv files
         stripped = (line.strip() for line in infile)
+        #2021/10/06  strip spaces in line from the .txt infile
         lines = (line.split(",") for line in stripped if line)
+        #2021/10/06 replace the between strings space with ',' and store the new string as lines
         writer = csv.writer(outfile)
         writer.writerows(lines)
-
+#2021/10/06 write lines into output csv files
 
 ##############################################
 ##############################################
