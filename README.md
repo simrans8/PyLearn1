@@ -91,24 +91,24 @@ import re, csv
 
 def make_mosaic_inventory(): #creating a picture from smaller pictures
     # Set up output filename
-    top_dir = os.getcwd()
-    run_location = top_dir.split('/')[-1:][0]
+    top_dir = os.getcwd() #This method returns current working directory of a process
+    run_location = top_dir.split('/')[-1:][0] #spliting the folder??
     # The extension to search for
     extensions = ['.jpx', '.txt']
     # First, cataloge the directory of images and their 
     # paths (i.e. the file, and each one's location for retrieval)
-    for dirpath, dirnames, files in os.walk(top_dir):
-        ln = len(files)
-        bar = IncrementalBar('Processing:', max=ln)
+    for dirpath, dirnames, files in os.walk(top_dir): #creating file name
+        ln = len(files) #length of file
+        bar = IncrementalBar('Processing:', max=ln) #processing vs progress to see process instead visual progress
         for name in files:
-            if name.lower().endswith(tuple(extensions)):
+            if name.lower().endswith(tuple(extensions)): #extensions are jpx and txt
                 if '._' in name:
                     continue
                 if '_CompilerResults' in name:
                     continue
                 if '_AssemblyComplete' in name:
                     continue
-                item_path = os.path.join(dirpath, name)
+                item_path = os.path.join(dirpath, name) #creating file names
                 mdata = Path(name).stem
                 container = '_'.join(mdata.split('_')[:-1])
                 # Nomenclature for output
@@ -120,11 +120,11 @@ def make_mosaic_inventory(): #creating a picture from smaller pictures
                 df1 = pd.DataFrame().append(nd, ignore_index=True)
                 out_fname = run_location + '_InventoryMosaic.csv'
                 if os.path.exists(out_fname):
-                    df1.to_csv(out_fname, mode='a', header=False, index=False)
+                    df1.to_csv(out_fname, mode='a', header=False, index=False) #creating a csv file
                 else:
                     df1.to_csv(out_fname, header=True, index=False)
-            bar.next()
-        bar.finish()
+            bar.next() #moving on to create next name to lopp through the next and ipdate the progress bar
+        bar.finish() #once looped through everything
 
 
 ##############################################
