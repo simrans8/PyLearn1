@@ -1,5 +1,5 @@
 # PyLearn1
-
+#21/10/06 notes merging test
 Some other changes
 # Libraries
 import numpy as np
