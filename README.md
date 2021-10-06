@@ -1,9 +1,22 @@
 # PyLearn1
+
+
+Simran's edits
+
+
+
 #21/10/06 notes merging test
+
 Some other changes
+
 making changes second time
+
 third time changes
 NEW LINE NEW NOTES
+
+
+
+
 # Libraries
 import numpy as np
 import pandas as pd
@@ -81,7 +94,7 @@ import re, csv
 ##############################################
 
 
-def make_mosaic_inventory():
+def make_mosaic_inventory(): #creating a picture from smaller pictures
     # Set up output filename
     top_dir = os.getcwd()
     run_location = top_dir.split('/')[-1:][0]
