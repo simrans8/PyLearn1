@@ -89,15 +89,15 @@ import re, csv
 ##############################################
 
 
-def make_mosaic_inventory(): #creating a picture from smaller pictures
+def make_mosaic_inventory(): #creating a picture from smaller pictures, taking big grid of pictures and keeping track of where all images go a list of directory and chunking through and renaming and adjust it for deep learning
     # Set up output filename
-    top_dir = os.getcwd() #This method returns current working directory of a process
-    run_location = top_dir.split('/')[-1:][0] #spliting the folder??
+    top_dir = os.getcwd() #This method returns current working directory of a process, sotirng info as variable
+    run_location = top_dir.split('/')[-1:][0] #spliting the folder?? split at / topdir is string split it and becones a data set and then grab the last segment (0) refers to return value not object so get data as string
     # The extension to search for
     extensions = ['.jpx', '.txt']
     # First, cataloge the directory of images and their 
     # paths (i.e. the file, and each one's location for retrieval)
-    for dirpath, dirnames, files in os.walk(top_dir): #creating file name
+    for dirpath, dirnames, files in os.walk(top_dir): #creating file name, organizes names in directory for massive for loop
         ln = len(files) #length of file
         bar = IncrementalBar('Processing:', max=ln) #processing vs progress to see process instead visual progress
         for name in files:
@@ -108,12 +108,12 @@ def make_mosaic_inventory(): #creating a picture from smaller pictures
                     continue
                 if '_AssemblyComplete' in name:
                     continue
-                item_path = os.path.join(dirpath, name) #creating file names
-                mdata = Path(name).stem
-                container = '_'.join(mdata.split('_')[:-1])
+                item_path = os.path.join(dirpath, name) #creating file names- maerging for path object path=loc of object
+                mdata = Path(name).stem #dropping extension
+                container = '_'.join(mdata.split('_')[:-1]) #taking everything except the final thing (image number)
                 # Nomenclature for output
-                nd = {}
-                nd['container'] = container
+                nd = {} #dictionary
+                nd['container'] = container #nd empty dictionary
                 nd['fpath'] = item_path
                 nd['fname'] = name
                 # Make new dataframe with output
@@ -135,16 +135,17 @@ def assembly_txt_conversion(input_file):
     """ Convert Assembly Data File Type """
     # Convert assembly.txt to assembly.csv 
     # The goal here is to make accessible all the data from the Assembly file
-    core_id = Path(input_file).stem
-    core_id = '_'.join(core_id.split('_')[:-1])
+    core_id = Path(input_file).stem #drops the extention
+    core_id = '_'.join(core_id.split('_')[:-1]) #drops final piece, fr every set of images there is assembly files where in mosaic image belings
     txt_file = input_file
     csv_file = core_id + '_AssemblyConverted.csv'
-    with open(txt_file, 'rt') as infile, open(csv_file, 'w+') as outfile:
+    with open(txt_file, 'rt') as infile, open(csv_file, 'w+') as outfile: -
         stripped = (line.strip() for line in infile)
-        lines = (line.split(",") for line in stripped if line)
+        lines = (line.split(",") for line in stripped if line) -every line write in split into chucks put comma b/w chucks and write data as csv
         writer = csv.writer(outfile)
-        writer.writerows(lines)
-
+        writer.writerows(lines) -write the out file
+#chaging image name and getting text file
+read in file and get important info
 
 ##############################################
 ##############################################
